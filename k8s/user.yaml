@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: user-pod
+  labels:
+    app: user
+spec:
+  containers:
+    - name: php
+      image: my_example_user_php
+      imagePullPolicy: Never
+      env:
+        - name: APP_ENV
+          value: prod
+    - name: web
+      image: my_example_user_web
+      imagePullPolicy: Never
+      env:
+        - name: UPSTREAM
+          value: php:9000

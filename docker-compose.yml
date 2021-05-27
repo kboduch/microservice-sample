@@ -1,0 +1,81 @@
+version: '3.4'
+
+x-cache-from:
+  - &api-cache-from
+    cache_from:
+      - ${NGINX_IMAGE:-quay.io/api-platform/nginx}
+      - ${PHP_IMAGE:-quay.io/api-platform/php}
+
+services:
+
+  rabbitmq:
+    container_name: queue
+    image: rabbitmq:3-management-alpine
+    ports:
+      - 15672:15672
+
+  product:
+    container_name: product_php
+    build:
+      context: ./product
+      dockerfile: ../etc/php/Dockerfile
+    depends_on:
+      - rabbitmq
+    volumes:
+      - ./product/index.php:/app/index.php
+
+  order:
+    container_name: order_php
+    build:
+      context: ./order
+      dockerfile: ../etc/php/Dockerfile
+    depends_on:
+      - rabbitmq
+
+  cart:
+    container_name: cart_php
+    build:
+      context: ./cart
+      dockerfile: ../etc/php/Dockerfile
+    depends_on:
+      - rabbitmq
+
+# USER
+
+  user_php:
+    container_name: user_php
+    build:
+      context: ./user
+      target: api_platform_php
+      <<: *api-cache-from
+    image: my_example_user_php
+    healthcheck:
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 30s
+#    depends_on:
+#      - db
+#    volumes:
+#      - ./user:/srv/api:rw,cached
+#      - ./user/docker/php/conf.d/api-platform.dev.ini:/usr/local/etc/php/conf.d/api-platform.ini
+    environment:
+      APP_ENV: prod
+
+  user_web:
+    container_name: user_web
+    build:
+      context: ./user
+      target: api_platform_nginx
+      <<: *api-cache-from
+    image: my_example_user_web
+    depends_on:
+      - user_php
+    volumes:
+      - ./user/public:/srv/api/public:ro
+    ports:
+      - 80:80
+    environment:
+      - UPSTREAM=user_php:9000
+
+# / USER
