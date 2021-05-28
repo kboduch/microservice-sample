@@ -1,0 +1,33 @@
+version: '3.4'
+
+x-cache-from:
+  - &api-cache-from
+    cache_from:
+      - ${NGINX_IMAGE:-quay.io/api-platform/nginx}
+      - ${PHP_IMAGE:-quay.io/api-platform/php}
+
+services:
+
+  order_db:
+    container_name: order_db
+    image: postgres:13
+
+  order_php:
+    container_name: order_php
+    build:
+      context: ./order
+      target: api_platform_php
+      <<: *api-cache-from
+    image: my_example_order_php
+    depends_on:
+      - order_db
+
+  order_web:
+    container_name: order_web
+    build:
+      context: ./order
+      target: api_platform_nginx
+      <<: *api-cache-from
+    image: my_example_order_web
+    depends_on:
+      - order_php

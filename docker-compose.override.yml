@@ -1,0 +1,31 @@
+version: '3.4'
+
+services:
+
+  order_db:
+    volumes:
+      - order_db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: test123
+      POSTGRES_USER: utest123
+      POSTGRES_DB: orders
+
+  order_php:
+    volumes:
+      - ./order:/srv/api:rw,cached
+      - ./order/docker/php/conf.d/api-platform.dev.ini:/usr/local/etc/php/conf.d/api-platform.ini
+    environment:
+      APP_ENV: dev
+      DATABASE_URL: postgresql://utest123:test123@order_db:5432/orders?serverVersion=13&charset=utf8
+
+  order_web:
+    volumes:
+      - ./order/public:/srv/api/public:ro
+    ports:
+      - 80:80
+    environment:
+      - UPSTREAM=order_php:9000
+
+volumes:
+  order_db_data:
+    external: false
