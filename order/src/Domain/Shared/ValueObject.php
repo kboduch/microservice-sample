@@ -36,13 +36,6 @@ abstract class ValueObject
 
         foreach ($otherValueObjectComponents as $index => $otherValueObjectComponent) {
             $thisValueObjectComponent = $thisValueObjectComponents[$index];
-            if (
-                $otherValueObjectComponent instanceof ValueObject &&
-                $thisValueObjectComponent instanceof ValueObject &&
-                !$thisValueObjectComponent->equals($otherValueObjectComponent)
-            ) {
-                return true;
-            }
 
             if ($thisValueObjectComponent !== $otherValueObjectComponent) {
                 return true;

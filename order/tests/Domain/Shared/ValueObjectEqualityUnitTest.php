@@ -79,5 +79,34 @@ class ValueObjectEqualityUnitTest extends TestCase
             new Box(1, 'a', [new Item(2, 'b', 'nonEqualityComponent')]),
             'they should not be equal because one of the equalityComponents on Box is different'
         ];
+
+//        yield [
+//            new Box(1, 'a', [new Item(2, 'a', 'nonEqualityComponent')]),
+//            new Box(
+//                1,
+//                'a',
+//                [
+//                    new Item(2, 'a', 'nonEqualityComponent'),
+//                    new Item(3, 'c', 'nonEqualityComponent')
+//                ]
+//            ),
+//            'they should not be equal because one of the equalityComponents on Box is different'
+//        ];
+//
+//        yield [
+//            new Box(1, 'a', [new Item(2, 'a', 'nonEqualityComponent')]),
+//            new Box(
+//                1,
+//                'a',
+//                [
+//                    new Item(2, 'a', 'nonEqualityComponent'),
+//                ],
+//                [
+//                    new Item(2, 'a', 'nonEqualityComponent'),
+//                    new Item(3, 'c', 'nonEqualityComponent')
+//                ]
+//            ),
+//            'they should not be equal because one of the equalityComponents on Box is different'
+//        ];
     }
 }

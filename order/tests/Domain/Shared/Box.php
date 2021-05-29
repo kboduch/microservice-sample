@@ -16,7 +16,8 @@ class Box extends ValueObject
         private int $a,
         private string $b,
         /** @var Item[] $c */
-        private array $c
+        private array $c,
+        private array $d = []
     ) {
         array_map(
             fn($x) => $x instanceof Item ?: throw new InvalidArgumentException('Expected instance of ' . Item::class),
@@ -53,8 +54,7 @@ class Box extends ValueObject
     {
         yield $this->a;
         yield $this->b;
-        foreach ($this->c as $item) {
-            yield $item;
-        }
+        yield $this->c;
+        yield $this->d;
     }
 }
