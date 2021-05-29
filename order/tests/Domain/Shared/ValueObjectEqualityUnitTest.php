@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Domain\Shared;
+namespace App\Tests\Domain\Shared;
 
 use App\Domain\Shared\ValueObject;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
-class ValueObjectEqualityTest extends TestCase
+class ValueObjectEqualityUnitTest extends TestCase
 {
     /**
      * @dataProvider equalValueObjects
@@ -27,7 +27,7 @@ class ValueObjectEqualityTest extends TestCase
     }
 
     /**
-     * @dataProvider \App\Tests\Unit\Domain\Shared\AllValueObjectSubclassesProvider::all_value_object_subclasses
+     * @dataProvider \App\Tests\Domain\Shared\AllValueObjectSubclassesProvider::all_value_object_subclasses
      */
     public function test_copied_value_object_should_represent_the_same_value(ValueObject $original): void
     {

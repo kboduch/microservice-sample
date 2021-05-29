@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Domain\Shared;
+namespace App\Tests\Domain\Shared;
 
 
 class SpecificItem extends Item

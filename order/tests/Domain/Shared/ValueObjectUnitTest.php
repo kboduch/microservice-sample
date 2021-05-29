@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Domain\Shared;
+namespace App\Tests\Domain\Shared;
 
 use App\Domain\Shared\ValueObject;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
-class ValueObjectTest extends TestCase
+class ValueObjectUnitTest extends TestCase
 {
     /**
-     * @dataProvider \App\Tests\Unit\Domain\Shared\AllValueObjectSubclassesProvider::all_value_object_subclasses
+     * @dataProvider \App\Tests\Domain\Shared\AllValueObjectSubclassesProvider::all_value_object_subclasses
      */
     public function test_all_value_object_subclasses_are_tested(): void
     {

@@ -21,7 +21,8 @@
 
     <testsuites>
         <testsuite name="unit">
-            <directory>tests/unit</directory>
+            <directory suffix="UnitTest.php">tests</directory>
+            <directory suffix="UnitTest.php">lib/*/tests/</directory>
         </testsuite>
     </testsuites>
 
