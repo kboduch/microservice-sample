@@ -27,8 +27,8 @@ abstract class ValueObject
 
     private function areEqualityComponentsDifferent(ValueObject $other): bool
     {
-        $otherValueObjectComponents = $this->flatEqualityComponents($other->equalityComponents());
-        $thisValueObjectComponents = $this->flatEqualityComponents($this->equalityComponents());
+        $otherValueObjectComponents = $this->prepareComparableList($other->equalityComponents());
+        $thisValueObjectComponents = $this->prepareComparableList($this->equalityComponents());
 
         if (count($otherValueObjectComponents) !== count($thisValueObjectComponents)) {
             return true;
@@ -36,12 +36,12 @@ abstract class ValueObject
 
         foreach ($otherValueObjectComponents as $index => $otherValueObjectComponent) {
             $thisValueObjectComponent = $thisValueObjectComponents[$index];
-            if (
-                $otherValueObjectComponent instanceof ValueObject &&
-                $thisValueObjectComponent instanceof ValueObject &&
-                !$thisValueObjectComponent->equals($otherValueObjectComponent)
-            ) {
-                return true;
+
+            if ($otherValueObjectComponent instanceof ValueObject && $thisValueObjectComponent instanceof ValueObject) {
+                if (!$thisValueObjectComponent->equals($otherValueObjectComponent)) {
+                    return true;
+                }
+                continue;
             }
 
             if ($thisValueObjectComponent !== $otherValueObjectComponent) {
@@ -52,17 +52,14 @@ abstract class ValueObject
         return false;
     }
 
-    private function flatEqualityComponents(iterable $iterable): array
+    private function prepareComparableList(iterable $iterable): array
     {
         $result = [];
 
         foreach ($iterable as $value) {
-            if ($value instanceof ValueObject) {
-                return array_merge($result, $this->flatEqualityComponents($value->equalityComponents()));
-            }
-
             if (is_iterable($value)) {
-                return array_merge($result, $this->flatEqualityComponents($value));
+                array_push($result, ...$this->prepareComparableList($value));
+                continue;
             }
 
             $result[] = $value;
