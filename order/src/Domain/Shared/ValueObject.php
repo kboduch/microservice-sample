@@ -1,16 +1,13 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Domain\Shared;
 
-use function count;
-
 abstract class ValueObject
 {
-    protected abstract function equalityComponents(): iterable;
+    abstract protected function equalityComponents(): iterable;
 
-    public function equals(ValueObject $other): bool
+    public function equals(self $other): bool
     {
         if ($other::class !== $this::class) {
             return false;
@@ -23,21 +20,21 @@ abstract class ValueObject
         return true;
     }
 
-    public abstract static function from(ValueObject $other): static;
+    abstract public static function from(self $other): static;
 
-    private function areEqualityComponentsDifferent(ValueObject $other): bool
+    private function areEqualityComponentsDifferent(self $other): bool
     {
         $otherValueObjectComponents = $this->prepareComparableList($other->equalityComponents());
         $thisValueObjectComponents = $this->prepareComparableList($this->equalityComponents());
 
-        if (count($otherValueObjectComponents) !== count($thisValueObjectComponents)) {
+        if (\count($otherValueObjectComponents) !== \count($thisValueObjectComponents)) {
             return true;
         }
 
         foreach ($otherValueObjectComponents as $index => $otherValueObjectComponent) {
             $thisValueObjectComponent = $thisValueObjectComponents[$index];
 
-            if ($otherValueObjectComponent instanceof ValueObject && $thisValueObjectComponent instanceof ValueObject) {
+            if ($otherValueObjectComponent instanceof self && $thisValueObjectComponent instanceof self) {
                 if (!$thisValueObjectComponent->equals($otherValueObjectComponent)) {
                     return true;
                 }
