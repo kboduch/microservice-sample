@@ -17,6 +17,21 @@ Read more:
 
 TODO:
 - Everything, I'll expand this list as I go.
+- Add code quality tools (deptrac, phpstan, phpcs-fixer, phpmd)
+- Set up docker compose config for all services
+- Add docker-compose-test.yaml and docker-compose-test.override.yaml to run the test suites
+- Services:
+    - Api gateway
+        - use envoy
+    - Cart
+        - todo list
+    - Order
+        - todo list
+    - Product
+        - todo list
+    - User
+        - todo list
+- Add https://docs.pact.io/ to test communication between services
 
 WIP:
-- Order
+- Order: Receive integration event `User checkout accepted` and start order processing.
