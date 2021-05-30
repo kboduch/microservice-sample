@@ -10,6 +10,7 @@
     <coverage processUncoveredFiles="true">
         <include>
             <directory suffix=".php">src</directory>
+            <directory suffix=".php">lib/*/src</directory>
         </include>
     </coverage>
 
@@ -22,7 +23,7 @@
     <testsuites>
         <testsuite name="unit">
             <directory suffix="UnitTest.php">tests</directory>
-            <directory suffix="UnitTest.php">lib/*/tests/</directory>
+            <directory suffix="UnitTest.php">lib/*/tests</directory>
         </testsuite>
     </testsuites>
 

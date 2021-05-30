@@ -24,12 +24,14 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\": "src/",
+            "PhpExtension\\": "lib/php-extension/src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "App\\Tests\\": "tests/",
+            "PhpExtension\\Tests\\": "lib/php-extension/tests"
         }
     },
     "replace": {
