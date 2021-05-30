@@ -3,9 +3,14 @@ declare(strict_types=1);
 
 namespace App\Domain\Shared;
 
+use Generator;
+
 abstract class ValueObject
 {
-    abstract protected function equalityComponents(): iterable;
+    /**
+     * @return Generator<mixed>
+     */
+    abstract protected function equalityComponents(): Generator;
 
     public function equals(self $other): bool
     {
@@ -49,6 +54,10 @@ abstract class ValueObject
         return false;
     }
 
+    /**
+     * @param iterable<mixed> $iterable
+     * @return array<mixed>
+     */
     private function prepareComparableList(iterable $iterable): array
     {
         $result = [];

@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Tests\Domain\Shared;
 
 use App\Domain\Shared\ValueObject;
+use Generator;
 use InvalidArgumentException;
 
-class Box extends ValueObject
+
+final class Box extends ValueObject
 {
     /**
      * @throws InvalidArgumentException
@@ -15,24 +17,30 @@ class Box extends ValueObject
     public function __construct(
         private int $a,
         private string $b,
-        /** @var Item[] $c */
+        /** @var array<Item> $c */
         private array $c,
+        /** @var array<Item> $d */
         private array $d = []
     ) {
-        array_map(
-            fn($x) => $x instanceof Item ?: throw new InvalidArgumentException('Expected instance of ' . Item::class),
-            $c
+        $instanceOfItemClass = fn($x) => $x instanceof Item ?: throw new InvalidArgumentException(
+            'Expected instance of ' . Item::class
         );
+        array_map($instanceOfItemClass, $c);
+        array_map($instanceOfItemClass, $d);
     }
 
     /**
      * @param Box $other
+     * @return Box
      */
     public static function from(ValueObject $other): static
     {
-        $c = array_map(fn($x) => clone $x, $other->c);
+        $other instanceof self ?: throw new \InvalidArgumentException('Expected instance of ' . self::class);
 
-        return new static($other->a, $other->b, $c);
+        $c = array_map(fn($x) => clone $x, $other->c);
+        $d = array_map(fn($x) => clone $x, $other->d);
+
+        return new self($other->a, $other->b, $c, $d);
     }
 
     public function getA(): int
@@ -45,17 +53,26 @@ class Box extends ValueObject
         return $this->b;
     }
 
+    /**
+     * @return array<Item>
+     */
     public function getC(): array
     {
         return $this->c;
     }
 
+    /**
+     * @return array<Item>
+     */
     public function getD(): array
     {
         return $this->d;
     }
 
-    protected function equalityComponents(): iterable
+    /**
+     * @return Generator<mixed>
+     */
+    protected function equalityComponents(): Generator
     {
         yield $this->a;
         yield $this->b;

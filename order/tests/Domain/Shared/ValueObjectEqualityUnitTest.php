@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Domain\Shared;
 
 use App\Domain\Shared\ValueObject;
+use Generator;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
@@ -35,7 +36,10 @@ class ValueObjectEqualityUnitTest extends TestCase
         Assert::assertTrue($original->equals($copy));
     }
 
-    public function equalValueObjects(): iterable
+    /**
+     * @return Generator<array<ValueObject|string>>
+     */
+    public function equalValueObjects(): Generator
     {
         $item = new Item(1, 'a', 'nonEqualityComponent');
         yield [$item, $item, 'they should be equal because they are the same object'];
@@ -99,19 +103,15 @@ class ValueObjectEqualityUnitTest extends TestCase
         ];
     }
 
+    /**
+     * @return Generator<array<ValueObject|string>>
+     */
     public function nonEqualValueObjects(): iterable
     {
         yield [
             new Item(3, 'a', 'nonEqualityComponent'),
             new Box(1, 'a', [new Item(1, 'a', 'nonEqualityComponent')]),
             'they should not be equal because they are different classes'
-        ];
-
-        $identicalArguments = [4, 'a', 'nonEqualityComponent'];
-        yield [
-            new Item(...$identicalArguments),
-            new SpecificItem(...$identicalArguments),
-            'they should not be equal because inherited classes should not be equal'
         ];
 
         yield [

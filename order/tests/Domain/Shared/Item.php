@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\Domain\Shared;
 
 use App\Domain\Shared\ValueObject;
+use Generator;
 
-class Item extends ValueObject
+final class Item extends ValueObject
 {
     public function __construct(
         private int $a,
@@ -17,13 +18,19 @@ class Item extends ValueObject
 
     /**
      * @param Item $other
+     * @@return Item 
      */
     public static function from(ValueObject $other): static
     {
-        return new static($other->a, $other->b, $other->notEqualityComponent);
+        $other instanceof self ?: throw new \InvalidArgumentException('Expected instance of ' . self::class);
+
+        return new self($other->a, $other->b, $other->notEqualityComponent);
     }
 
-    protected function equalityComponents(): iterable
+    /**
+     * @return Generator<mixed>
+     */
+    protected function equalityComponents(): Generator
     {
         yield $this->a;
         yield $this->b;
