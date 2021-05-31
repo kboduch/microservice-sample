@@ -17,7 +17,7 @@ Read more:
 
 TODO:
 - Everything, I'll expand this list as I go.
-- Add code quality tools (deptrac, phpstan, phpcs-fixer, phpmd)
+- Add code quality tools (~~deptrac~~, ~~phpstan, phpcs-fixer~~, phpmd)
 - Set up docker compose config for all services
 - Add docker-compose-test.yaml and docker-compose-test.override.yaml to run the test suites
 - Services:

@@ -1,0 +1,94 @@
+# This file describes layers used in hexagonal architecture.
+
+paths:
+  - ./lib/php-extension/src
+  - ./src
+
+layers:
+
+  # UI
+  - name: UI
+    collectors:
+      - type: className
+        regex: App\\Ui\\.*
+
+  - name: UIApplication
+    collectors:
+      - type: className
+        regex: ^App\\Ui\\.*\\Core\\Application\\.*
+
+  - name: UIPort
+    collectors:
+      - type: className
+        regex: ^App\\Ui\\.*\\Core\\Port\\.*
+
+  - name: UIInfrastructure
+    collectors:
+      - type: className
+        regex: ^App\\Ui\\.*\\Infrastructure\\.*
+  # /UI
+
+  - name: Application
+    collectors:
+      - type: className
+        regex: App\\Core\\Application\\.*
+
+  - name: Port
+    collectors:
+      - type: className
+        regex: App\\Core\\Port\\.*
+
+  - name: Domain
+    collectors:
+      - type: className
+        regex: App\\Core\\Domain\\.*
+
+  - name: Infrastructure
+    collectors:
+      - type: className
+        regex: App\\Infrastructure\\.*
+
+  - name: PhpExtension
+    collectors:
+      - type: className
+        regex: ^PhpExtension\\.*
+
+ruleset:
+
+  #todo generate image and verify deps ( 2 uncovered from vendor (ramsey uuid) )
+
+  UI:
+    - PhpExtension
+    - Application
+    - Domain
+    - Port
+
+  UIApplication:
+    - UIPort
+
+  UIPort:
+    - UIApplication
+
+  UIInfrastructure:
+    - UIPort
+
+  Application:
+    - PhpExtension
+    - Domain
+    - Port
+
+  Port:
+    - PhpExtension
+    - Domain
+    - Application
+
+  Domain:
+    - PhpExtension
+
+  Infrastructure:
+    - PhpExtension
+    - Application
+    - Domain
+    - Port
+
+  PhpExtension:

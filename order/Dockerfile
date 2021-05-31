@@ -138,3 +138,9 @@ RUN set -eux; \
  pecl install xdebug-$XDEBUG_VERSION; \
  docker-php-ext-enable xdebug; \
  apk del .build-deps
+
+ARG DEPTRAC_VERSION=0.13.0
+RUN set -eux; \
+ curl -LS https://github.com/qossmic/deptrac/releases/download/$DEPTRAC_VERSION/deptrac.phar -o deptrac.phar; \
+ chmod +x deptrac.phar; \
+ mv deptrac.phar /usr/local/bin/deptrac
