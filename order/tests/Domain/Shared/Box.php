@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\Shared;
 
-use App\Domain\Shared\ValueObject;
+use App\Core\Domain\Shared\ValueObject;
 use Generator;
 use InvalidArgumentException;
 
