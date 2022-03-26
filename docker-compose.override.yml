@@ -22,7 +22,7 @@ services:
     volumes:
       - ./order/public:/srv/api/public:ro
     ports:
-      - 80:80
+      - 8080:80
     environment:
       - UPSTREAM=order_php:9000
 
