@@ -1,5 +1,8 @@
 tasks:
   - name: Docker compose up
+    init: |
+      docker-compose -f docker-compose.yml -f docker-compose.override.yml build
+      docker-compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.dev.yml build
     command: docker-compose -f docker-compose.yml -f docker-compose.override.yml up
 
 # List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/
