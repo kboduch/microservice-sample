@@ -7,7 +7,7 @@ namespace PhpExtension\Uuid;
 use Ramsey\Uuid\Uuid as BaseUuid;
 use Stringable;
 
-class Uuid implements Stringable
+final class Uuid implements Stringable
 {
     public function __construct(private string $uuid)
     {
@@ -19,7 +19,7 @@ class Uuid implements Stringable
         return BaseUuid::isValid($string);
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->uuid;
     }

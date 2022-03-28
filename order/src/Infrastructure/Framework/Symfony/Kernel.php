@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
-class Kernel extends BaseKernel
+final class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
 
@@ -17,11 +17,13 @@ class Kernel extends BaseKernel
     {
         $container->import($this->getConfigDir() . '/{packages}/*.yaml');
         $container->import($this->getConfigDir() . '/{packages}/' . $this->environment . '/*.yaml');
+        $servicesYamlPath = $this->getConfigDir() . '/services.yaml';
+        $servicesPhpPath = $this->getConfigDir() . '/services.php';
 
-        if (is_file($servicesYamlPath = $this->getConfigDir() . '/services.yaml')) {
+        if (is_file($servicesYamlPath)) {
             $container->import($servicesYamlPath);
             $container->import($this->getConfigDir() . '/{services}_' . $this->environment . '.yaml');
-        } elseif (is_file($servicesPhpPath = $this->getConfigDir() . '/services.php')) {
+        } elseif (is_file($servicesPhpPath)) {
             (require $servicesPhpPath)($container->withPath($servicesPhpPath), $this);
         }
     }
@@ -30,10 +32,12 @@ class Kernel extends BaseKernel
     {
         $routes->import($this->getConfigDir() . '/{routes}/' . $this->environment . '/*.yaml');
         $routes->import($this->getConfigDir() . '/{routes}/*.yaml');
+        $routesYamlPath = $this->getConfigDir() . '/routes.yaml';
+        $routesPhpPath = \dirname(__DIR__) . '/config/routes.php';
 
-        if (is_file($routesYamlPath = $this->getConfigDir() . '/routes.yaml')) {
+        if (is_file($routesYamlPath)) {
             $routes->import($routesYamlPath);
-        } elseif (is_file($routesPhpPath = \dirname(__DIR__) . '/config/routes.php')) {
+        } elseif (is_file($routesPhpPath)) {
             (require $routesPhpPath)($routes->withPath($routesPhpPath), $this);
         }
     }

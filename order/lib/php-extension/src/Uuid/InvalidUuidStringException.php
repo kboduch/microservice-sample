@@ -6,7 +6,7 @@ namespace PhpExtension\Uuid;
 
 use RuntimeException;
 
-class InvalidUuidStringException extends RuntimeException
+final class InvalidUuidStringException extends RuntimeException
 {
     public function __construct(string $uuid)
     {

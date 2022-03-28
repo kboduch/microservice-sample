@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Core\Domain\Shared;
@@ -56,6 +57,7 @@ abstract class ValueObject
 
     /**
      * @param iterable<mixed> $iterable
+     *
      * @return array<mixed>
      */
     private function prepareComparableList(iterable $iterable): array
