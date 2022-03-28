@@ -14,13 +14,13 @@ final class Uuid implements Stringable
         self::isValid($uuid) ?: throw new InvalidUuidStringException($uuid);
     }
 
-    public static function isValid(string $string): bool
-    {
-        return BaseUuid::isValid($string);
-    }
-
     public function __toString(): string
     {
         return $this->uuid;
+    }
+
+    public static function isValid(string $string): bool
+    {
+        return BaseUuid::isValid($string);
     }
 }

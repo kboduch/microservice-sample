@@ -8,11 +8,6 @@ use Generator;
 
 abstract class ValueObject
 {
-    /**
-     * @return Generator<mixed>
-     */
-    abstract protected function equalityComponents(): Generator;
-
     public function equals(self $other): bool
     {
         if ($other::class !== $this::class) {
@@ -27,6 +22,11 @@ abstract class ValueObject
     }
 
     abstract public static function from(self $other): static;
+
+    /**
+     * @return Generator<mixed>
+     */
+    abstract protected function equalityComponents(): Generator;
 
     private function areEqualityComponentsDifferent(self $other): bool
     {
