@@ -9,6 +9,15 @@
             "type": "php",
             "request": "launch",
             "port": 9003
-        }
+        },
+        {
+            "name": "xDebug listen",
+            "type": "php",
+            "request": "launch",
+            "port": 9003,
+            "pathMappings": {
+              "/srv/api": "${workspaceFolder}/order"
+             }
+         }
     ]
 }
